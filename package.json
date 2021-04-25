@@ -6,14 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "set DEBUG=true & electron .",
-    "publish:github": "electron-builder --windows nsis:ia32 &"
+    "publish:github": "electron-builder --windows nsis:ia32 &",
+    "build": "electron-builder build --win --publish never",
+    "deploy": "electron-builder build --win --publish always",
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/carloszafra/electron-versions.git"
   },
-  "build": "electron-builder build --win --publish never",
-  "deploy": "electron-builder build --win --publish always",
   "keywords": [],
   "author": "",
   "license": "ISC",
