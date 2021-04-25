@@ -1,0 +1,28 @@
+{
+  "name": "markdown-editor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "set DEBUG=true & electron .",
+    "publish:github": "electron-builder --windows nsis:ia32 &"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/carloszafra/electron-versions.git"
+  },
+  "build": "electron-builder build --win --publish never",
+  "deploy": "electron-builder build --win --publish always",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^12.0.5",
+    "electron-builder": "^22.10.5"
+  },
+  "dependencies": {
+    "electron-updater": "^4.3.8",
+    "simplemde": "^1.11.2"
+  }
+}

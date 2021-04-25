@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
+    <link rel="stylesheet" href="./node_modules/simplemde/dist/simplemde.min.css">
+    <script src="./node_modules/simplemde/dist/simplemde.min.js"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+        }
+    </style>
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Editor</h1>
+
+    <textarea id="editor"></textarea>
+
+    <script>
+        var editor = new SimpleMDE({
+            element: document.getElementById("editor")
+        });
+
+        window.api.receive("editor-reply", (data) => {
+            if (data === 'toggle-bold') {
+                editor.toggleBold();
+            }
+
+            if (data === 'save') {
+                window.api.send('save', editor.value())
+            }
+
+            window.api.send('editor-reply', data)
+        });
+
+        window.api.receive("load", (data) => {
+            if (data) {
+                editor.value(data);
+            }
+        })
+
+
+        window.api.send('editor-reply', "some data");
+
+        
+
+        document.addEventListener('drop', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const f = event.dataTransfer.files[0];
+            const extension = f.name.split(".").pop();
+
+            if (extension === 'md') {
+                var reader = new FileReader();
+                reader.onload = e => {
+                    editor.codemirror.setValue(e.target.result);
+                }
+
+                reader.readAsText(f)
+            }
+
+        });
+
+        document.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+
+        document.addEventListener('dragenter', (event) => {
+            console.log('File is in the Drop Space');
+        });
+
+        document.addEventListener('dragleave', (event) => {
+            console.log('File has left the Drop Space');
+        });
+    </script>
+
+
+
+
+</body>
+
+</html>
